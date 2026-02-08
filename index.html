@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Кафе «УЮТ» — домашняя еда и обеды</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --bg: #F8F5EF;
+      --card: #FFF9F3;
+      --text: #4E3B31;
+      --accent: #C7D2A3;
+      --accent-dark: #A67C5D;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(248,245,239,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #E2D8C8;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    nav a {
+      margin-left: 16px;
+      font-size: 14px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    nav a:hover {
+      color: var(--accent-dark);
+    }
+
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 24px;
+      padding: 32px 0 40px;
+    }
+
+    .hero-text {
+      flex: 1 1 280px;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--text);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      color: #FFF9F3;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--accent-dark);
+      color: var(--text);
+    }
+
+    .hero-note {
+      font-size: 13px;
+      margin-top: 10px;
+      opacity: 0.8;
+    }
+
+    .hero-image {
+      flex: 1 1 260px;
+      min-height: 220px;
+      border-radius: 24px;
+      background: url('hero-food.jpg') center/cover no-repeat;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    section {
+      padding: 32px 0;
+    }
+
+    section h2 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .text-block {
+      max-width: 700px;
+      font-size: 15px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 14px 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      font-size: 14px;
+    }
+
+    .card-title {
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .reviews .card {
+      font-style: italic;
+    }
+
+    .reviews .author {
+      margin-top: 8px;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .contacts p {
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .contacts-actions {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .map-placeholder {
+      margin-top: 16px;
+      border-radius: 16px;
+      background: #E2D8C8;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #756453;
+    }
+
+    .floating-order {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 20;
+    }
+
+    .floating-order button {
+      background: var(--accent-dark);
+      color: #FFF9F3;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-size: 14px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+
+    .floating-order button:hover {
+      background: #8B5E3C;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none; /* под бургер-меню */
+      }
+
+      .hero {
+        flex-direction: column;
+      }
+
+      .hero h1 {
+        font-size: 26px;
+      }
+
+      .hero-image {
+        order: -1;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container topbar">
+    <div class="logo">Кафе «УЮТ»</div>
+    <nav>
+      <a href="#about">О кафе</a>
+      <a href="#menu">Меню</a>
+      <a href="#lunch">Обеды</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Домашняя еда рядом с вами</h1>
+      <p>Супы, горячие блюда, выпечка и комплексные обеды для вас, семьи и офиса. Готовим, как дома — с теплом и заботой.</p>
+      <div class="hero-buttons">
+        <button class="btn btn-primary">Посмотреть меню</button>
+        <button class="btn btn-outline">Заказать обед</button>
+      </div>
+      <div class="hero-note">Доставка по району, честные порции и понятные цены.</div>
+    </div>
+    <div class="hero-image"></div>
+  </section>
+
+  <section id="about">
+    <h2>О нашем кафе</h2>
+    <div class="text-block">
+      <p>«УЮТ» — небольшое кафе с домашней атмосферой, где всегда пахнет свежей выпечкой и горячими супами. Мы готовим так, как готовили бы для своих: без лишних добавок, из знакомых продуктов и по понятным рецептам.</p>
+      <br>
+      <p>Здесь можно спокойно пообедать, прийти всей семьёй, забрать еду с собой или заказать обед в офис. Нам важно, чтобы вы чувствовали себя своим человеком, а не просто «клиентом».</p>
+    </div>
+  </section>
+
+  <section id="menu">
+    <h2>Наше меню</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="card-title">Супы</div>
+        <p>Борщ, щи, куриный суп с лапшой — сытные, понятные и по‑домашнему вкусные супы для каждого дня.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Горячие блюда</div>
+        <p>Котлеты по‑домашнему, тефтели, тушёная курица, гарниры: картофельное пюре, гречка, рис.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Выпечка</div>
+        <p>Пирожки с разными начинками и сладкая выпечка к чаю — как дома, только без хлопот.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Напитки</div>
+        <p>Компоты, морсы, чай, кофе и домашние лимонады к вашим обедам и ужинам.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="lunch">
+    <h2>Комплексные обеды</h2>
+    <div class="text-block">
+      <p>Каждый будний день мы собираем комплексные обеды «как для своих»: суп дня, горячее с гарниром, салат, хлеб и напиток. Не нужно выбирать из сотни позиций — просто закажите обед, и мы обо всём позаботимся.</p>
+      <br>
+      <p>Обеды подойдут и для офиса, и для дома: привезём вовремя, горячими и без лишнего ожидания.</p>
+      <br>
+      <button class="btn btn-primary">Посмотреть варианты обедов</button>
+    </div>
+  </section>
+
+  <section id="reasons">
+    <h2>Почему к нам возвращаются</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="card-title">По‑домашнему вкусно</div>
+        <p>Готовим понятные блюда без лишней «гламурности» — как дома, только не нужно мыть посуду.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Свежие продукты</div>
+        <p>Закупаем продукты ежедневно и следим за качеством, чтобы еда радовала, а не утомляла.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Доступные цены</div>
+        <p>Хотим, чтобы домашняя еда была по карману каждому, а не только по праздникам.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Уютная атмосфера</div>
+        <p>Тёплый свет, дерево, текстиль и спокойная музыка — у нас хочется задержаться ещё на чашку чая.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Доставка по району</div>
+        <p>Привезём обеды домой или в офис, чтобы вы могли спокойно заниматься своими делами.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews" class="reviews">
+    <h2>Отзывы гостей</h2>
+    <div class="cards">
+      <div class="card">
+        <p>«Каждый будний день беру здесь обед в офис — быстро, сытно и без сюрпризов. Вкус как дома.»</p>
+        <div class="author">Анна, работает рядом с кафе</div>
+      </div>
+      <div class="card">
+        <p>«Для семьи это находка: не всегда есть силы готовить, а тут всё по‑домашнему и дети едят с удовольствием.»</p>
+        <div class="author">Ольга, живёт в соседнем доме</div>
+      </div>
+      <div class="card">
+        <p>«Нравится, что здесь помнят наши любимые блюда. Чувствуешь себя своим человеком.»</p>
+        <div class="author">Игорь, постоянный гость</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacts" class="contacts">
+    <h2>Контакты</h2>
+    <p>Адрес: г. [Город], ул. [Название], дом [№]</p>
+    <p>Телефон: +7 (XXX) XXX‑XX‑XX</p>
+    <p>Время работы: ежедневно с 9:00 до 21:00</p>
+    <div class="contacts-actions">
+      <button class="btn btn-primary">Позвонить</button>
+      <button class="btn btn-outline">Открыть маршрут в Яндекс.Картах</button>
+    </div>
+    <div class="map-placeholder">
+      Здесь будет карта с маршрутом до кафе
+    </div>
+  </section>
+</main>
+
+<div class="floating-order">
+  <button>🍲 Заказать обед</button>
+</div>
+
+</body>
+</html>
