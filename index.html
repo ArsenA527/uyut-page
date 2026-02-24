@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Кафе «УЮТ» — домашняя еда и обеды</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --bg: #F8F5EF;
+      --card: #FFF9F3;
+      --text: #4E3B31;
+      --accent: #C7D2A3;
+      --accent-dark: #A67C5D;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(248,245,239,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #E2D8C8;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    nav a {
+      margin-left: 16px;
+      font-size: 14px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    nav a:hover {
+      color: var(--accent-dark);
+    }
+
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 24px;
+      padding: 32px 0 40px;
+    }
+
+    .hero-text {
+      flex: 1 1 280px;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hero-image {
+      flex: 1 1 260px;
+      min-height: 220px;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .slider {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      border-radius: 24px; /* чтобы повторялся скругленный край */
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--text);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      color: #FFF9F3;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--accent-dark);
+      color: var(--text);
+    }
+
+    .hero-note {
+      font-size: 13px;
+      margin-top: 10px;
+      opacity: 0.8;
+    }
+
+    .hero-image {
+      flex: 1 1 320px;
+      min-height: 300px;
+      border-radius: 24px;
+      background: url('hero-food.jpg') center/cover no-repeat;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    section {
+      padding: 32px 0;
+    }
+
+    section h2 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .text-block {
+      max-width: 700px;
+      font-size: 15px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 14px 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      font-size: 14px;
+    }
+
+    .card-title {
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+
+    .reviews .card {
+      font-style: italic;
+    }
+
+    .reviews .author {
+      margin-top: 8px;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .contacts p {
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .contacts-actions {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .map-placeholder {
+      margin-top: 16px;
+      border-radius: 16px;
+      background: #E2D8C8;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #756453;
+    }
+
+    .floating-order {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 20;
+    }
+
+    .floating-order button {
+      background: var(--accent-dark);
+      color: #FFF9F3;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-size: 14px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+
+    .floating-order button:hover {
+      background: #8B5E3C;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none; /* под бургер-меню */
+      }
+
+      .hero {
+        flex-direction: column;
+      }
+
+      .hero h1 {
+        font-size: 26px;
+      }
+
+      .hero-image {
+        order: -1;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container topbar">
+    <div class="logo">Кафе «УЮТ»</div>
+    <nav>
+      <a href="#about">О кафе</a>
+      <a href="#menu">Меню</a>
+      <a href="#lunch">Обеды</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Домашняя еда рядом с вами</h1>
+      <p>Супы, горячие блюда, выпечка и комплексные обеды для вас, семьи и офиса. Готовим, как дома — с теплом и заботой.</p>
+      <div class="hero-buttons">
+        <a href="https://t.me/uyut_oficiant_bot" target="_blank" rel="noopener">
+          <button class="btn btn-primary">Заказать обед</button>
+        </a>
+      </div>
+      <div class="hero-note">Доставка по району, честные порции и понятные цены.</div>
+    </div>
+    <div class="hero-image">
+      <img src="https://60.img.avito.st/image/1/1.7FcqWba4QL4c7sKzfjL-AGT4QriU-MKoHPVCvJrwSLSc.cLmzdtfIfGOkhrWMaSNjDCoZfsuduWa-IZB-gQy2a94" class="slide active">
+      <img src="https://30.img.avito.st/image/1/1.1sz2A7a4eiXAtPgo1lS0nLiieCNIovgzwK94J0aqci9A.vmCI_iNlSkqbvFA9RghcNHwu5AGUwBXu2-gXW220wt4?cqp=2.TSzMy-m0u9ojo94xoNTr4TIkcUBjMu1L_y5Z6Lr-VHA-3xfoRpsvf1jN4IBF36LEO13sxOCjYv9KRoXzpmAFvKTQ" class="slide">
+      <img src="./img/image.jpg" class="slide">
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>О нашем кафе</h2>
+    <div class="text-block">
+      <p>«УЮТ» — небольшое кафе с домашней атмосферой, где всегда пахнет свежей выпечкой и горячими супами. Мы готовим так, как готовили бы для своих: без лишних добавок, из знакомых продуктов и по понятным рецептам.</p>
+    </div>
+  </section>
+
+  <section id="menu">
+    <h2>Меню на каждый день</h2>
+    <p>Каждый день — новое домашнее меню. Всегда свежие, горячие и сытные блюда.</p>
+
+    <div class="cards">
+
+      <div class="card">
+        <!-- <img src="./img/image.jpg" alt="Домашний суп"> -->
+        <div class="card-title">Понедельник</div>
+        <p><strong>Супы:</strong> Рассольник, суп картофельный (куриный)</p>
+        <p><strong>Горячее:</strong> Пюре с тефтелями, гречка с филе курицы в сметанном соусе</p>
+        <p><strong>Дополнительно:</strong> Салат, булочка</p>
+      </div>
+
+      <div class="card">
+        <!-- <img src="./img/image.jpg" alt="Солянка"> -->
+        <div class="card-title">Вторник</div>
+        <p><strong>Супы:</strong> Солянка, суп рисовый</p>
+        <p><strong>Горячее:</strong> Макароны с гуляшом, рис с жареной курицей</p>
+        <p><strong>Дополнительно:</strong> Салат</p>
+      </div>
+
+      <div class="card">
+        <!-- <img src="./img/image.jpg" alt="Плов"> -->
+        <div class="card-title">Среда</div>
+        <p><strong>Супы:</strong> Фасолевый, суп вермишелевый куриный</p>
+        <p><strong>Горячее:</strong> Плов, пюре с зразой с сыром</p>
+        <p><strong>Дополнительно:</strong> Салат, булочка</p>
+      </div>
+
+      <div class="card">
+        <!-- <img src="./img/image.jpg" alt="Борщ"> -->
+        <div class="card-title">Четверг</div>
+        <p><strong>Супы:</strong> Борщ, суп пельменный</p>
+        <p><strong>Горячее:</strong> Пюре с чахохбили, гречка с печенью по-строгановски</p>
+        <p><strong>Дополнительно:</strong> Салат</p>
+      </div>
+
+      <div class="card">
+        <!-- <img src="./img/image.jpg" alt="Харчо"> -->
+        <div class="card-title">Пятница</div>
+        <p><strong>Супы:</strong> Харчо, суп лапша</p>
+        <p><strong>Горячее:</strong> Пюре с рыбой в кляре, спагетти с болоньезе</p>
+        <p><strong>Дополнительно:</strong> Салат, булочка</p>
+      </div>
+
+      <div class="card">
+        <!-- <img src="./img/image.jpg" alt="Уха"> -->
+        <div class="card-title">Суббота</div>
+        <p><strong>Супы:</strong> Суп рисовый (куриный), уха (минтай)</p>
+        <p><strong>Горячее:</strong> Макароны с отбивной, капуста тушеная с колбаской</p>
+        <p><strong>Дополнительно:</strong> Салат</p>
+      </div>
+
+      <div class="card">
+        <!-- <img src="./img/image.jpg" alt="Домашний обед"> -->
+        <div class="card-title">Воскресенье</div>
+        <p><strong>Супы:</strong> Лапша, борщ</p>
+        <p><strong>Горячее:</strong> Рис с овощами, макароны с мясными колбасками</p>
+        <p><strong>Дополнительно:</strong> Салат</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="lunch">
+    <h2>Комплексные обеды для сотрудников с доставкой</h2>
+
+    <div class="text-block">
+      <p><strong>Комплексные обеды для сотрудников</strong> — это удобное решение для офисов, строительных объектов и предприятий. Кафе «УЮТ» организует <strong>доставку комплексных обедов</strong> ежедневно: горячие блюда, супы и ланчи приезжают точно ко времени.</p>
+      <p>Мы предлагаем <strong>горячие обеды с доставкой</strong>, полноценные <strong>ланчи с доставкой</strong> и организованное <strong>питание для сотрудников</strong> на постоянной основе. Наши обеды подходят как для небольших офисов, так и для крупных рабочих коллективов.</p>
+      <p>В меню входит: суп дня, горячее с гарниром, салат, хлеб и напиток. Это полноценный <strong>ланч</strong>, который даёт энергию на весь рабочий день.</p>
+
+      <ul style="margin: 12px 0 12px 18px;">
+        <li><strong>Доставка ланчей для ваших сотрудников</strong> по расписанию</li>
+        <li><strong>Обеды на стройку</strong> и производственные объекты</li>
+        <li>Регулярная <strong>доставка питания</strong> для офисов и компаний</li>
+        <li>Свежеприготовленное <strong>питание для сотрудников</strong> без полуфабрикатов</li>
+      </ul>
+
+      <p>Мы гарантируем честные порции, понятные цены и своевременную доставку. С нами организация обедов перестаёт быть проблемой — вы получаете стабильное и качественное решение.</p>
+      <br>
+    </div>
+  </section>
+
+  <section id="reasons">
+    <h2>Почему к нам возвращаются</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="card-title">По‑домашнему вкусно</div>
+        <p>Готовим понятные блюда без лишней «гламурности» — как дома, только не нужно мыть посуду.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Свежие продукты</div>
+        <p>Закупаем продукты ежедневно и следим за качеством, чтобы еда радовала, а не утомляла.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Доступные цены</div>
+        <p>Хотим, чтобы домашняя еда была по карману каждому, а не только по праздникам.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Уютная атмосфера</div>
+        <p>Тёплый свет, дерево, текстиль и спокойная музыка — у нас хочется задержаться ещё на чашку чая.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Доставка по району</div>
+        <p>Привезём обеды домой или в офис, чтобы вы могли спокойно заниматься своими делами.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews" class="reviews">
+    <h2>Отзывы гостей</h2>
+    <div class="cards">
+
+      <div class="card">
+        <p>«Всегда свежая и горячая еда — именно то, что нужно в течение рабочего дня. Ни разу не подвели по качеству.»</p>
+        <div class="author">Алексей, постоянный гость</div>
+      </div>
+
+      <div class="card">
+        <p>«Доставка всегда вовремя. Для нашего офиса это важно — обедаем по расписанию и без ожиданий.»</p>
+        <div class="author">Марина, офис-менеджер</div>
+      </div>
+
+      <div class="card">
+        <p>«Работаем на улице в любую погоду, и горячий обед из “УЮТ” — настоящее спасение. Сытно, вкусно и по-домашнему.»</p>
+        <div class="author">Сергей, строитель</div>
+      </div>
+
+      <div class="card">
+        <p>«Приятно, что блюда всегда подают горячими и свежими. Чувствуется забота о клиентах.»</p>
+        <div class="author">Дмитрий, постоянный гость</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="contacts" class="contacts">
+    <h2>Контакты</h2>
+
+    <p>Адрес: д. Есипово, 30</p>
+
+    <p>Телефон: +7 (925) 779-99-41</p>
+
+    <p>Время работы: ежедневно с 9:00 до 21:00</p>
+
+    <div class="contacts-actions">
+      <a href="tel:+79257799941">
+        <button class="btn btn-primary">Позвонить</button>
+      </a>
+      <a href="https://yandex.ru/maps/org/uyut/25962232664?si=2x18gv31gqnx45gf0d1tbh48mw" target="_blank" rel="noopener">
+        <button class="btn btn-outline">Открыть маршрут в Яндекс.Картах</button>
+      </a>
+    </div>
+  </section>
+</main>
+
+<div class="floating-order">
+  <a href="https://t.me/uyut_oficiant_bot" target="_blank" rel="noopener">
+    <button>🍲 Заказать обед</button>
+  </a>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const slides = document.querySelectorAll(".slide");
+  let current = 0;
+
+  if (slides.length === 0) return;
+
+  setInterval(() => {
+    slides[current].classList.remove("active");
+    current = (current + 1) % slides.length;
+    slides[current].classList.add("active");
+  }, 4000);
+});
+</script>
+</body>
+</html>
